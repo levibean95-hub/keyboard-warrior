@@ -6,22 +6,29 @@ WORKDIR /app
 # Copy backend package files
 COPY backend/package*.json ./
 
-# Install dependencies
+# Install ALL dependencies including TypeScript
 RUN npm install
 
-# Copy backend source files
+# Copy backend TypeScript config and source files
 COPY backend/tsconfig.json ./
 COPY backend/src ./src
 
-# Build TypeScript
-RUN npx tsc
+# Debug: Show what files we have
+RUN ls -la && ls -la src/
 
-# Remove dev dependencies
+# Build TypeScript with explicit config
+RUN npx tsc --version && npx tsc
+
+# Remove dev dependencies after build
 RUN npm prune --production
 
-# Create data directory
-RUN mkdir -p /app/data
+# Create data directory for SQLite
+RUN mkdir -p /app/data && chmod 755 /app/data
 
 EXPOSE 5000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:5000/health', (r) => {if(r.statusCode !== 200) process.exit(1)})" || exit 1
 
 CMD ["node", "dist/server.js"]
