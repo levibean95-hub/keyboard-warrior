@@ -1,0 +1,27 @@
+# Root-level Dockerfile for backend deployment
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy backend package files
+COPY backend/package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy backend source files
+COPY backend/tsconfig.json ./
+COPY backend/src ./src
+
+# Build TypeScript
+RUN npx tsc
+
+# Remove dev dependencies
+RUN npm prune --production
+
+# Create data directory
+RUN mkdir -p /app/data
+
+EXPOSE 5000
+
+CMD ["node", "dist/server.js"]

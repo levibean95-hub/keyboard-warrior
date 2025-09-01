@@ -5,8 +5,8 @@ services:
     runtime: docker
     repo: https://github.com/levibean95-hub/keyboard-warrior
     branch: main
-    dockerfilePath: ./backend/Dockerfile.render
-    dockerContext: ./backend
+    dockerfilePath: ./Dockerfile.backend
+    dockerContext: .
     region: oregon
     plan: free # Starting with free plan, can upgrade later
     healthCheckPath: /health
