@@ -4,7 +4,7 @@ services:
     name: keyboard-warrior-backend
     runtime: docker
     repo: https://github.com/levibean95-hub/keyboard-warrior
-    branch: master
+    branch: main
     rootDir: .
     dockerfilePath: ./backend/Dockerfile.render
     dockerContext: ./backend
