@@ -1,0 +1,27 @@
+services:
+  # Backend API Service
+  - type: web
+    name: keyboard-warrior-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile.render
+    dockerContext: ./backend
+    region: oregon
+    plan: free # Starting with free plan, can upgrade later
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: CORS_ORIGIN
+        sync: false # Set this to your Vercel frontend URL in Render dashboard
+      - key: DATABASE_URL
+        value: file:/app/data/keyboard-warrior.db
+      - key: JWT_SECRET
+        generateValue: true # Render will generate a secure random value
+      - key: OPENAI_API_KEY
+        sync: false # You'll need to set this manually in Render dashboard
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 100
