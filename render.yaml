@@ -5,7 +5,6 @@ services:
     runtime: docker
     repo: https://github.com/levibean95-hub/keyboard-warrior
     branch: main
-    rootDir: .
     dockerfilePath: ./backend/Dockerfile.render
     dockerContext: ./backend
     region: oregon
