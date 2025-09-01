@@ -14,10 +14,11 @@ COPY backend/tsconfig.json ./
 COPY backend/src ./src
 
 # Debug: Show what files we have
-RUN ls -la && ls -la src/
+RUN echo "Files in /app:" && ls -la && echo "Files in /app/src:" && ls -la src/
 
 # Build TypeScript with explicit config
-RUN npx tsc --version && npx tsc
+RUN echo "TypeScript version:" && npx tsc --version
+RUN echo "Building TypeScript..." && npx tsc || (echo "TypeScript build failed. Listing src directory:" && ls -R src/ && exit 1)
 
 # Remove dev dependencies after build
 RUN npm prune --production
