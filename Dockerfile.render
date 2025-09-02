@@ -1,0 +1,24 @@
+# Use Node.js 20 LTS as base image
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy backend package files
+COPY backend/package*.json ./backend/
+
+# Install dependencies in backend
+WORKDIR /app/backend
+RUN npm ci
+
+# Copy backend source code
+COPY backend/ ./
+
+# Build the TypeScript code
+RUN npm run build
+
+# Expose the port
+EXPOSE 10000
+
+# Start the application
+CMD ["npm", "start"]
