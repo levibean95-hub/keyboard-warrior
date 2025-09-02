@@ -1,0 +1,30 @@
+# Use Node.js 20 LTS as base image
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy backend package files
+COPY backend/package*.json ./backend/
+
+# Install dependencies in backend
+WORKDIR /app/backend
+RUN npm ci --include=dev
+
+# Copy backend source code
+COPY backend/ ./
+
+# Build the TypeScript code
+RUN npm run build
+
+# Remove dev dependencies after build
+RUN npm prune --production
+
+# Create data directory for SQLite
+RUN mkdir -p /app/data && chmod 755 /app/data
+
+# Expose the port
+EXPOSE 10000
+
+# Start the application
+CMD ["npm", "start"]
