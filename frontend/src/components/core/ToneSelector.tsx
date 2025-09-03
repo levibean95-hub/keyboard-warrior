@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import { ToneType } from '../../types';
 import { characters } from '../../data/characters';
 import clsx from 'clsx';
@@ -8,7 +8,10 @@ interface ToneSelectorProps {
   onChange: (tone: ToneType) => void;
 }
 
-const ToneSelector: React.FC<ToneSelectorProps> = ({ value, onChange }) => {
+const ToneSelector: React.FC<ToneSelectorProps> = memo(({ value, onChange }) => {
+  const handleToneChange = useCallback((tone: ToneType) => {
+    onChange(tone);
+  }, [onChange]);
   return (
     <div className="space-y-4">
       <label className="block text-lg font-bold text-gray-800">
@@ -19,7 +22,7 @@ const ToneSelector: React.FC<ToneSelectorProps> = ({ value, onChange }) => {
           <button
             key={character.id}
             type="button"
-            onClick={() => onChange(character.tone as ToneType)}
+            onClick={() => handleToneChange(character.tone as ToneType)}
             className={clsx(
               'relative group rounded-xl overflow-hidden transition-all transform hover:scale-105',
               value === character.tone
@@ -37,11 +40,12 @@ const ToneSelector: React.FC<ToneSelectorProps> = ({ value, onChange }) => {
             )} />
             
             <div className="relative p-3 bg-white dark:bg-gray-800">
-              <div className="aspect-square rounded-lg overflow-hidden mb-2 bg-gradient-to-br from-gray-100 to-gray-200">
+              <div className="aspect-square rounded-lg overflow-hidden mb-2 bg-gradient-to-br from-gray-700 to-gray-800">
                 <img
                   src={character.image}
                   alt={character.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  loading="lazy"
                 />
               </div>
               
@@ -73,6 +77,8 @@ const ToneSelector: React.FC<ToneSelectorProps> = ({ value, onChange }) => {
       </div>
     </div>
   );
-};
+})
+
+ToneSelector.displayName = 'ToneSelector';
 
 export default ToneSelector;

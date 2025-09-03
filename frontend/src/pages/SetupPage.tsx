@@ -83,13 +83,13 @@ export default function SetupPage() {
         className="fixed bg-cover bg-center bg-no-repeat"
         style={{ 
           backgroundImage: 'url("/KBW-Background.png")',
-          transform: `translateY(${-scrollY * 0.15}px)`,
+          transform: `translateY(${-scrollY * 0.15 + 10}px) scale(1.04)`,
           willChange: 'transform',
-          top: '-20%',
-          left: '0',
-          right: '0',
-          bottom: '-20%',
-          width: '100%',
+          top: '-17%',
+          left: '-2%',
+          right: '-2%',
+          bottom: '-23%',
+          width: '104%',
           height: '140%'
         }}
       >
@@ -127,7 +127,7 @@ export default function SetupPage() {
           {/* Battle Setup Card with enhanced depth */}
           <div className="bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-purple-500/30 p-8 transform hover:scale-[1.01] transition-transform duration-300">
             <div className="flex items-center mb-6">
-              <Shield className="w-8 h-8 text-yellow-400 mr-3 animate-bounce" />
+              <Shield className="w-8 h-8 text-yellow-400 mr-3" />
               <h2 className="text-3xl font-black text-transparent bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text">
                 PREPARE FOR BATTLE
               </h2>

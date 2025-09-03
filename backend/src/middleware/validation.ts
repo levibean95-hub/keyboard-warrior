@@ -23,7 +23,7 @@ export const validateGenerateResponses = [
     .isLength({ min: 10, max: 2000 }).withMessage('Context must be between 10 and 2000 characters'),
   body('tone')
     .notEmpty().withMessage('Tone is required')
-    .isIn(['calm-collected', 'aggressive', 'cunning', 'girly', 'sarcastic', 'intellectual', 'casual', 'professional'])
+    .isIn(['calm-collected', 'aggressive', 'cunning', 'playful', 'professional', 'nerd', 'casual', 'custom'])
     .withMessage('Invalid tone type'),
   body('styleExamples')
     .optional()
@@ -44,7 +44,7 @@ export const validateCreateArgument = [
     .isLength({ min: 10, max: 2000 }).withMessage('Context must be between 10 and 2000 characters'),
   body('tone')
     .notEmpty().withMessage('Tone is required')
-    .isIn(['calm-collected', 'aggressive', 'cunning', 'girly', 'sarcastic', 'intellectual', 'casual', 'professional'])
+    .isIn(['calm-collected', 'aggressive', 'cunning', 'playful', 'professional', 'nerd', 'casual', 'custom'])
     .withMessage('Invalid tone type'),
   body('styleExamples')
     .optional()

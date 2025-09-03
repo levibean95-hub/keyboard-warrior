@@ -14,7 +14,7 @@ export const characters: Character[] = [
     name: 'Calm and Collected',
     tone: 'calm-collected',
     image: '/characters/KBW Calm and collected.png',
-    description: 'Composed, rational, and level-headed. Masters the art of logical discourse.',
+    description: 'Composed, rational, and level-headed. Expert at detecting logical fallacies and dismantling flawed arguments with pure reason.',
     color: '#3B82F6',
     bgGradient: 'from-blue-500/20 to-cyan-500/20'
   },
@@ -32,34 +32,34 @@ export const characters: Character[] = [
     name: 'Cunning',
     tone: 'cunning',
     image: '/characters/KBW Cunning.png',
-    description: 'Strategic, clever, and subtly manipulative. A master of psychological tactics.',
+    description: 'Strategic, intellectual, and devastatingly clever. Masters hard-to-detect logical fallacies and underhanded tactics while staying eerily calm.',
     color: '#8B5CF6',
     bgGradient: 'from-purple-500/20 to-pink-500/20'
   },
   {
-    id: 'girly',
-    name: 'Girly',
-    tone: 'girly',
-    image: '/characters/KBW Girly.png',
-    description: 'Playful, emotional, and expressive. Wins with personality and charm.',
+    id: 'playful',
+    name: 'Playful',
+    tone: 'playful',
+    image: '/characters/KBW-Playful.png',
+    description: 'Fun, lighthearted, and expressive. Wins with humor and charm.',
     color: '#EC4899',
     bgGradient: 'from-pink-500/20 to-rose-500/20'
   },
   {
-    id: 'custom',
-    name: 'Custom',
-    tone: 'custom',
-    image: '/characters/KBW Sarcastic.png',
-    description: 'Define your own unique style and personality.',
-    color: '#F59E0B',
-    bgGradient: 'from-amber-500/20 to-yellow-500/20'
+    id: 'professional',
+    name: 'Professional',
+    tone: 'professional',
+    image: '/characters/KBW Professional.png',
+    description: 'Formal, diplomatic, and business-like. Maintains utmost professionalism.',
+    color: '#6B7280',
+    bgGradient: 'from-gray-500/20 to-slate-500/20'
   },
   {
     id: 'nerd',
     name: 'Nerd',
     tone: 'nerd',
     image: '/characters/KBW Nerd.png',
-    description: 'Academic, sophisticated, and analytical. Employs complex reasoning.',
+    description: 'Academic genius with encyclopedic knowledge. Precisely identifies logical fallacies and cites extensive research to dominate debates.',
     color: '#10B981',
     bgGradient: 'from-emerald-500/20 to-green-500/20'
   },
@@ -73,13 +73,13 @@ export const characters: Character[] = [
     bgGradient: 'from-cyan-500/20 to-sky-500/20'
   },
   {
-    id: 'professional',
-    name: 'Professional',
-    tone: 'professional',
-    image: '/characters/KBW Professional.png',
-    description: 'Formal, diplomatic, and business-like. Maintains utmost professionalism.',
-    color: '#6B7280',
-    bgGradient: 'from-gray-500/20 to-slate-500/20'
+    id: 'custom',
+    name: 'Custom',
+    tone: 'custom',
+    image: '/characters/KBW Sarcastic.png',
+    description: 'Define your own unique style and personality.',
+    color: '#F59E0B',
+    bgGradient: 'from-amber-500/20 to-yellow-500/20'
   }
 ];
 

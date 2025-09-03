@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  backend-dev:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: keyboard-warrior-backend-dev
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=development
+      - PORT=5000
+      - HOST=0.0.0.0
+      - DB_PATH=/app/database/keyboard_warrior.db
+      - FRONTEND_URL=http://localhost:3000
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - JWT_SECRET=${JWT_SECRET:-dev-secret-key}
+      - LOG_LEVEL=debug
+    volumes:
+      - ./backend/src:/app/src:ro
+      - ./backend/package.json:/app/package.json:ro
+      - ./backend/tsconfig.json:/app/tsconfig.json:ro
+      - dev-database:/app/database
+      - dev-logs:/app/logs
+      - /app/node_modules
+    restart: unless-stopped
+    networks:
+      - keyboard-warrior-dev-network
+    command: npm run dev
+
+  frontend-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: keyboard-warrior-frontend-dev
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:5000/api
+    volumes:
+      - ./frontend/src:/app/src:ro
+      - ./frontend/public:/app/public:ro
+      - ./frontend/package.json:/app/package.json:ro
+      - ./frontend/vite.config.ts:/app/vite.config.ts:ro
+      - ./frontend/tsconfig.json:/app/tsconfig.json:ro
+      - ./frontend/tailwind.config.js:/app/tailwind.config.js:ro
+      - /app/node_modules
+    restart: unless-stopped
+    networks:
+      - keyboard-warrior-dev-network
+    command: npm run dev
+
+  redis-dev:
+    image: redis:7-alpine
+    container_name: keyboard-warrior-redis-dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-dev-data:/data
+    restart: unless-stopped
+    networks:
+      - keyboard-warrior-dev-network
+
+volumes:
+  dev-database:
+    driver: local
+  dev-logs:
+    driver: local
+  redis-dev-data:
+    driver: local
+
+networks:
+  keyboard-warrior-dev-network:
+    driver: bridge

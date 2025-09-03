@@ -105,7 +105,7 @@ export default function ChatPage() {
     try {
       const response = await sendMessage(conversationId, {
         role: 'user',
-        content: selectedContent,
+        content: selectedContent || '',
       });
 
       setMessages(response.messages);

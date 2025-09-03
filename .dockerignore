@@ -1,0 +1,110 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+README.md
+
+# Development files
+*.dev.js
+*.dev.ts
+test/
+tests/
+spec/
+*.spec.js
+*.spec.ts
+*.test.js
+*.test.ts
+
+# Build artifacts
+dist/
+build/
+out/
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Documentation (not needed in container)
+docs/
+*.md
+
+# Scripts (development only)
+scripts/
+
+# Deployment files
+docker-compose*.yml
+Dockerfile*
+.dockerignore
+
+# Claude-Flow specific files
+.claude-flow/
+.claude/
+.hive-mind/
+.kiro/
+.mcp.json
+claude-flow*
+memory/
+
+# Database files (should be mounted as volumes)
+database/*.db
+database/backups/
+
+# SSL certificates (should be mounted securely)
+ssl/
+*.pem
+*.key
+*.crt
+
+# Monitoring configurations
+monitoring/
+nginx/
+
+# Backup files
+*.backup
+*.bak

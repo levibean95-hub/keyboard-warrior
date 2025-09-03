@@ -2,11 +2,11 @@ export type ToneType =
   | 'calm-collected'
   | 'aggressive'
   | 'cunning'
-  | 'girly'
-  | 'custom'
+  | 'playful'
+  | 'professional'
   | 'nerd'
   | 'casual'
-  | 'professional';
+  | 'custom';
 
 export interface ArgumentData {
   id?: string;

@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { Argument, ArgumentFormData } from '../types';
 import toast from 'react-hot-toast';
+import { useDebounce } from '../hooks/useDebounce';
 
 interface ArgumentContextType {
   savedArguments: Argument[];
@@ -9,6 +10,7 @@ interface ArgumentContextType {
   loadArgument: (id: string) => void;
   deleteArgument: (id: string) => void;
   updateArgument: (id: string, updates: Partial<Argument>) => void;
+  isLoading: boolean;
 }
 
 const ArgumentContext = createContext<ArgumentContextType | undefined>(undefined);
@@ -28,29 +30,57 @@ interface ArgumentProviderProps {
 export const ArgumentProvider: React.FC<ArgumentProviderProps> = ({ children }) => {
   const [savedArguments, setSavedArguments] = useState<Argument[]>([]);
   const [currentArgument, setCurrentArgument] = useState<Argument | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Load saved arguments from localStorage
-    const stored = localStorage.getItem('keyboard-warrior-arguments');
-    if (stored) {
+    // Load saved arguments from localStorage with error boundary
+    const loadSavedArguments = async () => {
       try {
-        const parsed = JSON.parse(stored);
-        setSavedArguments(parsed);
+        setIsLoading(true);
+        const stored = localStorage.getItem('keyboard-warrior-arguments');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          // Validate data structure
+          if (Array.isArray(parsed)) {
+            setSavedArguments(parsed);
+          } else {
+            console.warn('Invalid saved arguments format, resetting to empty array');
+            setSavedArguments([]);
+          }
+        }
       } catch (error) {
         console.error('Error loading saved arguments:', error);
+        toast.error('Failed to load saved arguments');
+        setSavedArguments([]);
+      } finally {
+        setIsLoading(false);
       }
-    }
+    };
+    
+    loadSavedArguments();
   }, []);
 
-  const saveToLocalStorage = (args: Argument[]) => {
-    localStorage.setItem('keyboard-warrior-arguments', JSON.stringify(args));
-  };
+  // Debounced save to localStorage to prevent excessive writes
+  const debouncedSaveToLocalStorage = useDebounce((args: Argument[]) => {
+    try {
+      localStorage.setItem('keyboard-warrior-arguments', JSON.stringify(args));
+    } catch (error) {
+      console.error('Error saving arguments to localStorage:', error);
+      toast.error('Failed to save arguments locally');
+    }
+  }, 500);
+  
+  const saveToLocalStorage = useCallback((args: Argument[]) => {
+    debouncedSaveToLocalStorage(args);
+  }, [debouncedSaveToLocalStorage]);
 
-  const saveArgument = (formData: ArgumentFormData) => {
+  const saveArgument = useCallback((formData: ArgumentFormData) => {
     const newArgument: Argument = {
       id: Date.now().toString(),
       title: formData.title || `Argument ${savedArguments.length + 1}`,
       context: formData.context,
+      opponentPosition: formData.opponentPosition || '',
+      userPosition: formData.userPosition || '',
       tone: formData.tone,
       styleExamples: formData.styleExamples,
       responses: [],
@@ -63,17 +93,19 @@ export const ArgumentProvider: React.FC<ArgumentProviderProps> = ({ children }) 
     saveToLocalStorage(updated);
     setCurrentArgument(newArgument);
     toast.success('Argument saved successfully!');
-  };
+  }, [savedArguments, saveToLocalStorage]);
 
-  const loadArgument = (id: string) => {
+  const loadArgument = useCallback((id: string) => {
     const argument = savedArguments.find(arg => arg.id === id);
     if (argument) {
       setCurrentArgument(argument);
       toast.success('Argument loaded');
+    } else {
+      toast.error('Argument not found');
     }
-  };
+  }, [savedArguments]);
 
-  const deleteArgument = (id: string) => {
+  const deleteArgument = useCallback((id: string) => {
     const updated = savedArguments.filter(arg => arg.id !== id);
     setSavedArguments(updated);
     saveToLocalStorage(updated);
@@ -81,9 +113,9 @@ export const ArgumentProvider: React.FC<ArgumentProviderProps> = ({ children }) 
       setCurrentArgument(null);
     }
     toast.success('Argument deleted');
-  };
+  }, [savedArguments, currentArgument, saveToLocalStorage]);
 
-  const updateArgument = (id: string, updates: Partial<Argument>) => {
+  const updateArgument = useCallback((id: string, updates: Partial<Argument>) => {
     const updated = savedArguments.map(arg =>
       arg.id === id
         ? { ...arg, ...updates, updatedAt: new Date() }
@@ -94,19 +126,32 @@ export const ArgumentProvider: React.FC<ArgumentProviderProps> = ({ children }) 
     if (currentArgument?.id === id) {
       setCurrentArgument({ ...currentArgument, ...updates, updatedAt: new Date() });
     }
-  };
+  }, [savedArguments, currentArgument, saveToLocalStorage]);
+
+  // Memoize context value to prevent unnecessary re-renders
+  const contextValue = useMemo(
+    () => ({
+      savedArguments,
+      currentArgument,
+      saveArgument,
+      loadArgument,
+      deleteArgument,
+      updateArgument,
+      isLoading
+    }),
+    [
+      savedArguments,
+      currentArgument,
+      saveArgument,
+      loadArgument,
+      deleteArgument,
+      updateArgument,
+      isLoading
+    ]
+  );
 
   return (
-    <ArgumentContext.Provider
-      value={{
-        savedArguments,
-        currentArgument,
-        saveArgument,
-        loadArgument,
-        deleteArgument,
-        updateArgument,
-      }}
-    >
+    <ArgumentContext.Provider value={contextValue}>
       {children}
     </ArgumentContext.Provider>
   );

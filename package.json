@@ -10,10 +10,28 @@
     "build": "npm run build:frontend && npm run build:backend",
     "build:frontend": "cd frontend && npm run build",
     "build:backend": "cd backend && npm run build",
+    "build:production": "./scripts/build-production.sh",
+    "build:production:windows": "scripts\\build-production.bat",
     "start": "cd backend && npm start",
     "test": "npm run test:frontend && npm run test:backend",
     "test:frontend": "cd frontend && npm test",
-    "test:backend": "cd backend && npm test"
+    "test:backend": "cd backend && npm test",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend && npm run lint",
+    "docker:build": "docker build -t keyboard-warrior .",
+    "docker:run": "docker run -p 5000:5000 keyboard-warrior",
+    "docker:dev": "docker-compose -f docker-compose.dev.yml up -d",
+    "docker:dev:down": "docker-compose -f docker-compose.dev.yml down",
+    "docker:prod": "docker-compose up -d",
+    "docker:prod:down": "docker-compose down",
+    "deploy:staging": "./scripts/deploy-staging.sh",
+    "deploy:production": "./scripts/deploy-production.sh",
+    "health:check": "curl -f http://localhost:5000/health || curl -f https://localhost:5000/health",
+    "logs": "docker-compose logs -f",
+    "logs:app": "docker-compose logs -f app",
+    "backup:db": "mkdir -p database/backups && cp database/keyboard_warrior.db database/backups/backup-$(date +%Y%m%d-%H%M%S).db",
+    "cleanup": "docker system prune -f && docker volume prune -f"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
@@ -25,8 +43,27 @@
     "react",
     "typescript",
     "node",
-    "express"
+    "express",
+    "docker",
+    "deployment"
   ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/keyboard-warrior.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/keyboard-warrior/issues"
+  },
+  "homepage": "https://keyboardwarrior.app",
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-basic-auth": "^1.2.1",
+    "http-proxy-middleware": "^3.0.5"
+  }
 }

@@ -1,0 +1,96 @@
+{
+  "name": "keyboard-warrior-backend",
+  "version": "1.0.0",
+  "description": "Secure backend API for Keyboard Warrior application",
+  "main": "dist/server.secure.js",
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/server.secure.ts",
+    "dev:original": "nodemon --exec ts-node src/server.ts",
+    "build": "tsc && npm run copy-static",
+    "copy-static": "cp -R src/assets dist/ 2>/dev/null || :",
+    "start": "node dist/server.secure.js",
+    "start:original": "node dist/server.js",
+    "test": "jest --coverage",
+    "test:security": "npm audit && npm run test:vulnerabilities",
+    "test:vulnerabilities": "snyk test",
+    "lint": "eslint . --ext .ts --fix",
+    "lint:security": "eslint . --ext .ts --config .eslintrc.security.js",
+    "clean": "rimraf dist coverage",
+    "prestart": "npm run build",
+    "postinstall": "npm audit fix",
+    "security:scan": "npm audit && snyk test && npm run lint:security",
+    "logs:view": "tail -f logs/combined-$(date +%Y-%m-%d).log",
+    "logs:errors": "tail -f logs/error-$(date +%Y-%m-%d).log",
+    "logs:security": "tail -f logs/security-$(date +%Y-%m-%d).log"
+  },
+  "dependencies": {
+    "@types/uuid": "^10.0.0",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.4",
+    "express-slow-down": "^2.0.1",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "openai": "^4.104.0",
+    "sqlite3": "^5.1.6",
+    "uuid": "^11.1.0",
+    "validator": "^13.11.0",
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^4.7.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.16",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.9.0",
+    "@types/supertest": "^2.0.16",
+    "@types/validator": "^13.11.7",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "eslint": "^8.53.0",
+    "eslint-config-security": "^1.2.2",
+    "eslint-plugin-security": "^1.7.1",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
+    "rimraf": "^5.0.5",
+    "snyk": "^1.1271.0",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "keywords": [
+    "api",
+    "security",
+    "authentication",
+    "express",
+    "typescript",
+    "jwt",
+    "rate-limiting"
+  ],
+  "author": "Keyboard Warrior Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/keyboard-warrior.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/keyboard-warrior/issues"
+  },
+  "homepage": "https://github.com/your-org/keyboard-warrior#readme",
+  "security": {
+    "advisories": [],
+    "policies": {
+      "audit-level": "high",
+      "dev": false
+    }
+  }
+}

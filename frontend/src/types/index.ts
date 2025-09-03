@@ -2,11 +2,11 @@ export type ToneType =
   | 'calm-collected'
   | 'aggressive'
   | 'cunning'
-  | 'girly'
-  | 'custom'
+  | 'playful'
+  | 'professional'
   | 'nerd'
   | 'casual'
-  | 'professional';
+  | 'custom';
 
 export interface Argument {
   id: string;
@@ -67,9 +67,9 @@ export const TONE_DESCRIPTIONS: Record<ToneType, string> = {
   'calm-collected': 'Composed, rational, and level-headed',
   'aggressive': 'Direct, forceful, and confrontational',
   'cunning': 'Strategic, clever, and manipulative',
-  'girly': 'Playful, emotional, and expressive',
-  'custom': 'Your unique style',
+  'playful': 'Fun, lighthearted, and expressive',
+  'professional': 'Formal, diplomatic, and business-like',
   'nerd': 'Academic, sophisticated, and analytical',
   'casual': 'Relaxed, informal, and conversational',
-  'professional': 'Formal, diplomatic, and business-like'
+  'custom': 'Your unique style'
 };

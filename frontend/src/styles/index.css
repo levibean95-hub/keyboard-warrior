@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-black text-gray-100 antialiased;
+    @apply bg-gray-50 text-gray-900 antialiased;
   }
 
   h1 {
@@ -164,7 +164,7 @@
   --accent-color: #8B5CF6;
 }
 
-.tone-girly {
+.tone-playful {
   --accent-color: #EC4899;
 }
 
